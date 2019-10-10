@@ -1011,7 +1011,7 @@ class JunOSDriver(NetworkDriver):
 
         def build_prefix_limit(**args):
             """
-            Transform the lements of a dictionary into nested dictionaries.
+            Transform the elements of a dictionary into nested dictionaries.
 
             Example:
                 {
