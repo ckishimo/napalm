@@ -1,0 +1,14 @@
+<instance-information>
+    <instance-core>
+        <instance-name>DUMMY</instance-name>
+        <router-id>0.0.0.0</router-id>
+        <instance-type>vrf</instance-type>
+	<instance-state>Active</instance-state>
+        <instance-interface>
+           <interface-name>ge-0/0/46.0</interface-name>
+        </instance-interface>
+        <instance-vrf>
+            <route-distinguisher>13335:1234</route-distinguisher>
+        </instance-vrf>
+    </instance-core>
+</instance-information>
