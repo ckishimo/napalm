@@ -40,11 +40,13 @@ junos_logical_iface_view:
     mac_address: ../current-physical-address
 
 ####
-#### BGP tables
+#### BGP tables and network instances
 ####
 
 junos_route_instance_table:
   rpc: get-instance-information
+  args:
+    detail: True
   item: instance-core
   key: instance-name
   view: junos_route_instance_view
@@ -52,6 +54,9 @@ junos_route_instance_table:
 junos_route_instance_view:
   fields:
     name: instance-name
+    instance_type: {instance-type: unicode}
+    interfaces: {instance-interface/interface-name: unicode}
+    route_distinguisher: {instance-vrf/route-distinguisher: unicode}
 
 junos_bgp_uptime_table:
   rpc: get-bgp-summary-information
@@ -735,18 +740,3 @@ junos_intf_40Goptics_view:
     output_power: laser-output-power-dbm
     input_power: laser-rx-optical-power-dbm
 
-###
-### Get network instances
-###
-
-junos_nw_instances_table:
-  get: routing-instances/instance
-  view: junos_nw_instances_view
-  args_key:
-    name
-
-junos_nw_instances_view:
-  fields:
-    instance_type: {instance-type: unicode}
-    interfaces: {interface/name | bridge-domains/domain/interface/name: unicode}
-    route_distinguisher: {route-distinguisher/rd-type: unicode}

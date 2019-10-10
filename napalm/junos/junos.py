@@ -2254,14 +2254,17 @@ class JunOSDriver(NetworkDriver):
 
         network_instances = {}
 
-        ri_table = junos_views.junos_nw_instances_table(self.device)
-        ri_table.get(options={"database": self.junos_config_database})
+        ri_table = junos_views.junos_route_instance_table(self.device)
+        ri_table.get()
         ri_entries = ri_table.items()
 
         vrf_interfaces = []
 
         for ri_entry in ri_entries:
             ri_name = py23_compat.text_type(ri_entry[0])
+            if ri_name.startswith("__"):
+                # junos internal instances
+                continue
             ri_details = {d[0]: d[1] for d in ri_entry[1]}
             ri_type = ri_details["instance_type"]
             if ri_type is None:
@@ -2275,7 +2278,7 @@ class JunOSDriver(NetworkDriver):
                 "type": C.OC_NETWORK_INSTANCE_TYPE_MAP.get(
                     ri_type, ri_type
                 ),  # default: return raw
-                "state": {"route_distinguisher": ri_rd if ri_rd else ""},
+                "state": {"route_distinguisher": ri_rd if ri_rd else "0:0"},
                 "interfaces": {
                     "interface": {
                         intrf_name: {} for intrf_name in ri_interfaces if intrf_name
